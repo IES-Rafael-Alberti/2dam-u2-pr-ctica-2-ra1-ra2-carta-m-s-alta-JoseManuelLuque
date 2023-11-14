@@ -1,8 +1,6 @@
 package com.jluqgon214.cartamasalta
 
 import android.os.Bundle
-import android.os.Debug
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -16,6 +14,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jluqgon214.cartamasalta.ui.theme.CartaMasAltaTheme
-import java.io.Console
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,16 +46,13 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun CartaMasAlta() {
-    val baraja = Baraja
-    baraja.crearBaraja()
-    baraja.barajar()
-
+    var cartaActual by rememberSaveable { mutableStateOf(Carta(Naipes.As, Palos.Corazones, 1, 11, R.drawable.reverse)) }
     Column(
         Modifier
             .fillMaxSize()
             .size(250.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(id = R.drawable.reverse),
@@ -70,10 +68,13 @@ fun CartaMasAlta() {
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { baraja.dameCarta() }, Modifier.padding(10.dp)) {
+        Button(onClick = { cartaActual = Baraja.dameCarta() }, Modifier.padding(10.dp)) {
             Text(text = "Dame Carta")
         }
-        Button(onClick = {/*TODO*/}, Modifier.padding(10.dp)) {
+        Button(onClick = {
+            Baraja.crearBaraja()
+            Baraja.barajar()
+        }, Modifier.padding(10.dp)) {
             Text(text = "Reiniciar")
         }
     }

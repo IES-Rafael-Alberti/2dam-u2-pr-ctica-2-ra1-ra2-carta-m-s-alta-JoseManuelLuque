@@ -7,19 +7,13 @@ package com.jluqgon214.cartamasalta
  * - barajar() => Desordenar las cartas de la lista de cartas de la baraja (shuffle)
  * - dameCarta() => Retorna la última carta de la lista de cartas y la elimina de la baraja.
  */
-class Baraja(listaCartas: ArrayList<Carta>) {
-    var listaCartas = ArrayList<Carta>()
-
-    init {
-        this.listaCartas = listaCartas
-    }
-
+class Baraja() {
     companion object {
         var listaCartas = ArrayList<Carta>()
         fun crearBaraja() {
             for (palo in Palos.values()) {
                 for (numero in 1..13) {
-                    val carta = Carta(Naipes.values()[numero - 1], palo, numero, asignarValor(numero), asignarImagen(numero, palo))
+                    val carta = Carta(Naipes.values()[numero - 1], palo, numero, asignarValor(numero), asignarImagen(numero, palo).toInt())
                     listaCartas.add(carta)
                 }
             }
