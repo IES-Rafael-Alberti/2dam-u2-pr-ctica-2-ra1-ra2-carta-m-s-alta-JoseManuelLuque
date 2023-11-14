@@ -12,8 +12,8 @@ class Baraja() {
         var listaCartas = ArrayList<Carta>()
         fun crearBaraja() {
             for (palo in Palos.values()) {
-                for (numero in 1..13) {
-                    val carta = Carta(Naipes.values()[numero - 1], palo, numero, asignarValor(numero), asignarImagen(numero, palo).toInt())
+                for ((indice, numero) in Naipes.values().withIndex()) {
+                    val carta = Carta(numero, palo, indice+1, asignarValor(indice+1), R.drawable.reverse)
                     listaCartas.add(carta)
                 }
             }
@@ -25,9 +25,8 @@ class Baraja() {
                 else -> numero
             }
         }
-
-        private fun asignarImagen(numero: Int, palo: Palos): String {
-            val nombreImagen = "R.Drawable.${palo.name[0].toLowerCase()}${numero}"
+        private fun asignarImagen(numero: Int, palo: Palos): Int {
+            val nombreImagen = "${palo.name[0].lowercaseChar()}${numero}".toInt()
             return nombreImagen
         }
 
@@ -39,6 +38,10 @@ class Baraja() {
             val carta = listaCartas.last()
             listaCartas.removeLast()
             return carta
+        }
+
+        fun borrarBaraja() {
+            listaCartas.clear()
         }
     }
 }

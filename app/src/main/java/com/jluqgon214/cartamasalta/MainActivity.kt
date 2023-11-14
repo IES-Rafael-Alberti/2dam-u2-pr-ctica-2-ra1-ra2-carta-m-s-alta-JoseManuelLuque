@@ -1,6 +1,7 @@
 package com.jluqgon214.cartamasalta
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -46,7 +47,10 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun CartaMasAlta() {
-    var cartaActual by rememberSaveable { mutableStateOf(Carta(Naipes.As, Palos.Corazones, 1, 11, R.drawable.reverse)) }
+    Baraja.crearBaraja()
+    Baraja.barajar()
+    var cartaActual by rememberSaveable { mutableStateOf(Carta(Naipes.As, Palos.Corazones, 1, 11, R.drawable.reverse).toString()) }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -68,10 +72,12 @@ fun CartaMasAlta() {
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { cartaActual = Baraja.dameCarta() }, Modifier.padding(10.dp)) {
+        Button(onClick = { cartaActual = Baraja.dameCarta().toString()
+                         Log.d("Yo mismo", "$cartaActual ${Baraja.listaCartas.size}")}, Modifier.padding(10.dp)) {
             Text(text = "Dame Carta")
         }
         Button(onClick = {
+            Baraja.borrarBaraja()
             Baraja.crearBaraja()
             Baraja.barajar()
         }, Modifier.padding(10.dp)) {
